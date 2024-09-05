@@ -1,0 +1,8 @@
+{
+  "name" : "rg-jsondecode-test",
+  "location" : "westeurope",
+  "tags" : {
+    "Environment" : "dev",
+    "ChargeCode" : "STS-123456"
+  }
+}
