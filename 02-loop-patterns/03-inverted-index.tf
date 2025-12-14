@@ -2,13 +2,13 @@ variable "city_country_map" {
   description = "A simple map of City -> Country"
   type        = map(string)
   default = {
-    "London"    = "UK"
-    "Manchester"= "UK"
-    "Paris"     = "France"
-    "Lyon"      = "France"
-    "Nice"      = "France"
-    "Berlin"    = "Germany"
-    "Munich"    = "Germany"
+    "London"     = "UK"
+    "Manchester" = "UK"
+    "Paris"      = "France"
+    "Lyon"       = "France"
+    "Nice"       = "France"
+    "Berlin"     = "Germany"
+    "Munich"     = "Germany"
   }
 }
 
@@ -59,7 +59,7 @@ variable "billing_data" {
 
 locals {
   group_by_cost_center = {
-    for resource in var.billing_data: resource.cost_center => resource.id...
+    for resource in var.billing_data : resource.cost_center => resource.id...
   }
 }
 
@@ -84,7 +84,7 @@ output "group_by_cost_center" {
 
 # Yet another example
 variable "files" {
-  type    = list(string)
+  type = list(string)
   default = [
     "config.json",
     "deploy.yaml",
@@ -97,7 +97,7 @@ variable "files" {
 
 locals {
   filter_by_extension = {
-    for file in var.files: split(".", file)[1] => file...
+    for file in var.files : split(".", file)[1] => file...
   }
 }
 

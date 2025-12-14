@@ -8,8 +8,8 @@ variable "environments" {
 
 locals {
   cartesian_product = flatten([
-    for region in var.regions: [
-      for env in var.environments: "${region}-${env}"
+    for region in var.regions : [
+      for env in var.environments : "${region}-${env}"
     ]
   ])
 }
