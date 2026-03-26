@@ -6,7 +6,6 @@ Override files are the intentional exception to this rule: you can override spec
 
 Terraform initially skips these override files when loading configuration, processes them last and tries to merge the override blocks into the existing object.
 
-
 ### Naming
 Any file ending in `*_override.tf/` and `*_override.tf.json`, or those named exactly `override.tf` and `override.tf.json` is treated as an override file. 
 
@@ -14,11 +13,34 @@ Any file ending in `*_override.tf/` and `*_override.tf.json`, or those named exa
 - `*_override.tf/*_override.tf.json` - processed in alphabetical order after `override.tf/override.tf.json`
 
 ### How Merging Works
+Generally speaking, matching an original block (type and name):
 
+- an attribute argument within an override block replaces any argument of the same name in the original block
+- any nested blocks within an override block replace all blocks of the same type in the original block
+- any block types that do not appear in the override block remain from the original block
+- The contents of nested configuration blocks are not merged.
+
+> [!NOTE]
+> Validation rules that apply to the given block type still apply to the final merged block.
 
 ## Use Cases
 ### Reconfigure state backend for development and testing
 ### Reconfigure module source URLs to use a local copy
+You might want to use a local copy instead of a remote source:
+
+```
+# vnet.tf
+module "vnet" {
+  source  = "Azure/avm-res-network-virtualnetwork/azurerm"
+  version = "0.17.1"
+}
+
+# vnet_override.tf (use local module during development)
+module "vpc" {
+  source = "../avm-res-network-virtualnetwork"
+}
+```
+
 ### Reconfigure default variables
 
 # Best practices
