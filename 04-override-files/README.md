@@ -24,6 +24,30 @@ Generally speaking, matching an original block (type and name):
 > Validation rules that apply to the given block type still apply to the final merged block.
 
 ## Use Cases
+### Reconfigure attributes
+Here's how our original configuration (`main.tf`) and `override.tf` look like:
+```
+# main.tf
+resource "azurerm_storage_account" "tfs" {
+  name                     = "storageaccountname"
+  account_replication_type = "GRS"
+}
+
+# override.tf
+resource "azurerm_storage_account" "tfs" {
+  account_replication_type = "LRS"
+}
+```
+
+Terraform will merge `override.tf` into `main.tf`, making the configuration effectively this:
+
+```
+resource "azurerm_storage_account" "tfs" {
+  name                     = "storageaccountname"
+  account_replication_type = "LRS"
+}
+```
+
 ### Reconfigure state backend for development and testing
 ```
 # terraform.tf
@@ -42,7 +66,6 @@ terraform {
     path = "relative/path/to/terraform.tfstate"
   }
 }
-
 ```
 
 ### Reconfigure module source URLs to use a local copy
