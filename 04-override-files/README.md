@@ -25,6 +25,26 @@ Generally speaking, matching an original block (type and name):
 
 ## Use Cases
 ### Reconfigure state backend for development and testing
+```
+# terraform.tf
+terraform {
+  backend "azurerm" {
+      resource_group_name  = "tfstate"
+      storage_account_name = "<storage_account_name>"
+      container_name       = "tfstate"
+      key                  = "terraform.tfstate"
+  }
+}
+
+# terraform_override.tf
+terraform {
+  backend "local" {
+    path = "relative/path/to/terraform.tfstate"
+  }
+}
+
+```
+
 ### Reconfigure module source URLs to use a local copy
 You might want to use a local copy instead of a remote source:
 
