@@ -85,6 +85,24 @@ module "vpc" {
 ```
 
 ### Reconfigure default variables
+When overriding variables, Terraform enforces compatibility between the type and the default value:
+
+- **If you change the type**: Terraform attempts to convert the original default value to the new type.
+- **If you change the default value**: The new value must match the original type definition.
+In either scenario, if the new configuration is incompatible, Terraform will return an error.
+
+```
+# variables.tf
+variable "vm_size" {
+  type    = string
+  default = "Standard_F2"
+}
+
+# variables_override.tf
+variable "vm_size" {
+  default = "Standard_B2s"
+}
+```
 
 # Best practices
 - Do not consider this a pattern: **avoid** if you don't really need it
