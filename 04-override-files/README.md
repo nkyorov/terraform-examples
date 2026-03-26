@@ -1,12 +1,12 @@
-# Override files
-## What are override files
+# Override Files
+## What are Override Files?
 Terraform normally loads all of the `.tf` and `.tf.json` files within a directory and expects each one to define a distinct set of configuration objects. If two files attempt to define the same object, Terraform returns an error.
 
 Override files are the intentional exception to this rule: you can override specific portions of an existing configuration object in a separate file.
 
 Terraform initially skips these override files when loading configuration, processes them last and tries to merge the override blocks into the existing object.
 
-### Naming
+### Naming Conventions
 Any file ending in `*_override.tf/` and `*_override.tf.json`, or those named exactly `override.tf` and `override.tf.json` is treated as an override file. 
 
 - `override.tf/override.tf.json` - processed first 
@@ -24,7 +24,7 @@ Generally speaking, matching an original block (type and name):
 > Validation rules that apply to the given block type still apply to the final merged block.
 
 ## Use Cases
-### Reconfigure attributes
+### Reconfiguring Resource Attributes
 Here's how our original configuration (`main.tf`) and `override.tf` look like:
 ```
 # main.tf
@@ -48,7 +48,7 @@ resource "azurerm_storage_account" "tfs" {
 }
 ```
 
-### Reconfigure state backend for development and testing
+### Reconfigure State Backend For Development And Testing
 ```
 # terraform.tf
 terraform {
@@ -68,7 +68,7 @@ terraform {
 }
 ```
 
-### Reconfigure module source URLs to use a local copy
+### Developing Modules Locally
 You might want to use a local copy instead of a remote source:
 
 ```
@@ -84,7 +84,7 @@ module "vpc" {
 }
 ```
 
-### Reconfigure default variables
+### Overriding Variable Defaults
 When overriding variables, Terraform enforces compatibility between the type and the default value:
 
 - **If you change the type**: Terraform attempts to convert the original default value to the new type.
@@ -104,7 +104,7 @@ variable "vm_size" {
 }
 ```
 
-# Best practices
+# Best Practices
 - Do not consider this a pattern: **avoid** if you don't really need it
 - For local development and testing, add override files to `.gitignore`
 - Document everything, as readability takes a huge hit: leave comments in the original configuration files about which overrides applies to each block
